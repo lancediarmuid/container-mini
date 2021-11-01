@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userService" class="cn.noexception.test.bean.UserService" scope="prototype">
+        <property name="uId" value="10001"/>
+        <property name="company" value="腾讯"/>
+        <property name="location" value="深圳"/>
+        <property name="userDao" ref="proxyUserDao"/>
+    </bean>
+
+    <!-- 配置事件监听器、监听器刷新、监听自定义事件、监听关闭事件 -->
+    <bean id="proxyUserDao" class="cn.noexception.test.bean.ProxyBeanFactory"/>
+<!--    <bean class="cn.noexception.test.event.ContextRefreshedEventListener"/>-->
+    <bean class="cn.noexception.test.event.CustomEventListener"/>
+<!--    <bean class="cn.noexception.test.event.ContextClosedEventListener"/>-->
+
+</beans>

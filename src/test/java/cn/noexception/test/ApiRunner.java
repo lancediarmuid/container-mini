@@ -1,7 +1,14 @@
 package cn.noexception.test;
 
+import cn.noexception.container.aop.AdvisedSupport;
+import cn.noexception.container.aop.TargetSource;
+import cn.noexception.container.aop.aspectj.AspectJExpressionPointcut;
+import cn.noexception.container.aop.framework.Cglib2AopProxy;
+import cn.noexception.container.aop.framework.JdkDynamicAopProxy;
 import cn.noexception.container.context.support.ClassPathXmlApplicationContext;
+import cn.noexception.test.bean.IUserService;
 import cn.noexception.test.bean.UserService;
+import cn.noexception.test.bean.UserServiceInterceptor;
 import cn.noexception.test.event.CustomEvent;
 import org.junit.Test;
 
@@ -42,5 +49,26 @@ public class ApiRunner {
         applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
 
         applicationContext.registerShutdownHook();
+    }
+
+    @Test
+    public void test_dynamic(){
+        // 目标对象
+        IUserService userService = new cn.noexception.test.bean.impl.UserService();
+        // 组装代理信息
+        AdvisedSupport advisedSupport = new AdvisedSupport();
+        advisedSupport.setTargetSource(new TargetSource(userService));
+        advisedSupport.setMethodInterceptor(new UserServiceInterceptor());
+        advisedSupport.setMethodMatcher(new AspectJExpressionPointcut("execution(* cn.noexception.test.bean.IUserService.*(..))"));
+
+        // 代理对象（使用JDK代理JdkDynamicAopProxy）
+        IUserService proxy_jdk = (IUserService) new JdkDynamicAopProxy(advisedSupport).getProxy();
+        // 测试调用
+        System.out.println("测试结果："+proxy_jdk.queryUserInfo());
+
+        // 代理对象（使用Cglib代理Cglib2AopProxy）
+        IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport).getProxy();
+        // 测试调用
+        System.out.println("测试结果："+proxy_cglib.register("感冒灵"));
     }
 }

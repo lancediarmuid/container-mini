@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    <bean id="userService" class="cn.noexception.test.bean.UserService"/>
+    <bean id="userService" class="cn.noexception.test.bean.impl.UserService"/>
 
     <bean class="cn.noexception.container.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 

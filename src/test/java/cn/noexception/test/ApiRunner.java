@@ -71,4 +71,12 @@ public class ApiRunner {
         // 测试调用
         System.out.println("测试结果："+proxy_cglib.register("感冒灵"));
     }
+
+    @Test
+    public void test_aop(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:config_aop.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+
+        System.out.println("测试结果："+userService.queryUserInfo());
+    }
 }

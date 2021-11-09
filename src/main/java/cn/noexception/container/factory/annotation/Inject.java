@@ -1,0 +1,17 @@
+package cn.noexception.container.factory.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Inject
+ *
+ * @author 吕滔
+ * @Date 2021/11/9 10:59
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.METHOD})
+public @interface Inject {
+}

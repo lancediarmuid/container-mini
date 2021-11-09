@@ -1,6 +1,7 @@
 package cn.noexception.container.aop.framework.autoproxy;
 
 import cn.noexception.container.BeansException;
+import cn.noexception.container.PropertyValues;
 import cn.noexception.container.aop.*;
 import cn.noexception.container.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import cn.noexception.container.aop.framework.ProxyFactory;
@@ -77,5 +78,10 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
      */
     private boolean isInfrastructureClass(Class<?> beanClass) {
         return Advice.class.isAssignableFrom(beanClass) || Pointcut.class.isAssignableFrom(beanClass) || Advisor.class.isAssignableFrom(beanClass);
+    }
+
+    @Override
+    public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+        return pvs;
     }
 }

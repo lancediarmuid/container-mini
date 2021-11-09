@@ -1,6 +1,7 @@
 package cn.noexception.container.factory.config;
 
 import cn.noexception.container.factory.HierarchicalBeanFactory;
+import cn.noexception.container.factory.utils.StringValueResolver;
 
 /**
  * ConfigurableBeanFactory
@@ -18,4 +19,8 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * 销毁单例对象
      */
     void destroySingletons();
+
+    void addEmbeddedValueResolver(StringValueResolver valueResolver);
+
+    String resolveEmbeddedValue(String value);
 }

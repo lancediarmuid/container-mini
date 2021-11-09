@@ -9,6 +9,7 @@ import cn.noexception.container.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import cn.noexception.container.aop.framework.ProxyFactory;
 import cn.noexception.container.aop.framework.ReflectiveMethodInvocation;
 import cn.noexception.container.aop.framework.adapter.MethodBeforeAdviceInterceptor;
+import cn.noexception.container.context.support.ClassPathXmlApplicationContext;
 import cn.noexception.test.bean.IUserService;
 import cn.noexception.test.bean.UserServiceBeforeAdvice;
 import cn.noexception.test.bean.UserServiceInterceptor;
@@ -101,4 +102,29 @@ public class AopTest {
         String result = proxy.queryUserInfo();
         System.out.println("测试结果：" + result);
     }
+
+    @Test
+    public void test_property() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-property.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果： " + userService);
+    }
+
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
+    }
+
+
 }
+
+
+
+
+
+
+
+
+

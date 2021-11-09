@@ -1,5 +1,6 @@
 package cn.noexception.test.bean.impl;
 
+import cn.noexception.container.factory.stereotype.Cube;
 import cn.noexception.test.bean.IUserService;
 
 import java.util.Random;
@@ -10,7 +11,11 @@ import java.util.Random;
  * @author 吕滔
  * @Date 2021/11/3 17:01
  */
+@Cube("userService")
 public class UserService implements IUserService {
+
+    private String token;
+
     @Override
     public String queryUserInfo() {
         try {
@@ -30,5 +35,18 @@ public class UserService implements IUserService {
         }
 
         return "注册用户：" + userName + " success! ";
+    }
+
+    @Override
+    public String toString() {
+        return "UserService#token = { " + token + " }";
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

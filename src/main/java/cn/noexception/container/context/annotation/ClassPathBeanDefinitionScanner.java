@@ -1,6 +1,7 @@
 package cn.noexception.container.context.annotation;
 
 import cn.hutool.core.util.StrUtil;
+import cn.noexception.container.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import cn.noexception.container.factory.config.BeanDefinition;
 import cn.noexception.container.factory.stereotype.Cube;
 import cn.noexception.container.factory.support.BeanDefinitionRegistry;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 /**
  * ClassPathBeanDefinitionScanner
- *
+ * <p>
  * 扫描包处理
  *
  * @author 吕滔
@@ -34,6 +35,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(determineBeanName(beanDefinition), beanDefinition);
             }
         }
+
+        // 注册处理注解的 BeanPostProcessor （@Inject , @InputValue）
+        registry.registerBeanDefinition("cn.noexception.container.context.annotation.internalAutowiredAnnotationProcessor", new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
     }
 
     private String determineBeanName(BeanDefinition beanDefinition) {

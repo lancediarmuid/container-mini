@@ -54,7 +54,7 @@ public class ApiRunner {
     @Test
     public void test_dynamic(){
         // 目标对象
-        IUserService userService = new cn.noexception.test.bean.impl.UserService();
+        IUserService userService = new UserService();
         // 组装代理信息
         AdvisedSupport advisedSupport = new AdvisedSupport();
         advisedSupport.setTargetSource(new TargetSource(userService));

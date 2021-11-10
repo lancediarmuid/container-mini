@@ -13,7 +13,7 @@ import cn.noexception.container.context.support.ClassPathXmlApplicationContext;
 import cn.noexception.test.bean.IUserService;
 import cn.noexception.test.bean.UserServiceBeforeAdvice;
 import cn.noexception.test.bean.UserServiceInterceptor;
-import cn.noexception.test.bean.impl.UserService;
+import cn.noexception.test.bean.UserService;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.junit.Before;
 import org.junit.Test;
@@ -113,6 +113,13 @@ public class AopTest {
     @Test
     public void test_scan() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
+    }
+
+    @Test
+    public void test_inject() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-inject.xml");
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
         System.out.println("测试结果：" + userService.queryUserInfo());
     }

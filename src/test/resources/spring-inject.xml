@@ -10,8 +10,9 @@
         <property name="location" value="classpath:token.properties"/>
     </bean>
 
-    <bean id="userService" class="cn.noexception.test.bean.UserService">
-        <property name="token" value="${token}"/>
-    </bean>
+    <bean class="cn.noexception.test.event.ContextRefreshListener"/>
+
+    <context:component-scan base-package="cn.noexception.test.bean"/>
+
 
 </beans>

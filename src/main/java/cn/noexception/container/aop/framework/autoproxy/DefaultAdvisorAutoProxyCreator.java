@@ -38,26 +38,18 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
+        if (isInfrastructureClass(bean.getClass())) return bean;
 
-    @Override
-    public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-        if (isInfrastructureClass(beanClass)) return null;
         Collection<AspectJExpressionPointcutAdvisor> advisors = beanFactory.getBeansOfType(AspectJExpressionPointcutAdvisor.class).values();
 
         for (AspectJExpressionPointcutAdvisor advisor : advisors) {
             ClassFilter classFilter = advisor.getPointcut().getClassFilter();
-            if (!classFilter.matches(beanClass))
-                continue;
+            // 过滤匹配类
+            if (!classFilter.matches(bean.getClass())) continue;
 
             AdvisedSupport advisedSupport = new AdvisedSupport();
-            TargetSource targetSource = null;
-            try {
-                targetSource = new TargetSource(beanClass.getDeclaredConstructor().newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+            TargetSource targetSource = new TargetSource(bean);
             // 设置目标对象
             advisedSupport.setTargetSource(targetSource);
             // 设置拦截方法
@@ -67,10 +59,21 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
             // 设置选择使用的代理方法
             advisedSupport.setProxyTargetClass(false);
 
+            // 返回代理对象
             return new ProxyFactory(advisedSupport).getProxy();
         }
 
+        return bean;
+    }
+
+    @Override
+    public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
         return null;
+    }
+
+    @Override
+    public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+        return true;
     }
 
     /**

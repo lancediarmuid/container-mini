@@ -200,6 +200,7 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
         return result;
     }
 
+    // 完成 AOP 代理对象的创建操作
     @Override
     public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException {
         Object result = existingBean;

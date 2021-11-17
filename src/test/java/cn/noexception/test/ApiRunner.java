@@ -10,6 +10,8 @@ import cn.noexception.test.bean.IUserService;
 import cn.noexception.test.bean.UserService;
 import cn.noexception.test.bean.UserServiceInterceptor;
 import cn.noexception.test.event.CustomEvent;
+import cn.noexception.test.loop.Husband;
+import cn.noexception.test.loop.Wife;
 import org.junit.Test;
 
 public class ApiRunner {
@@ -78,5 +80,14 @@ public class ApiRunner {
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
 
         System.out.println("测试结果："+userService.queryUserInfo());
+    }
+
+    @Test
+    public void test_circular(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-loop.xml");
+        Husband husband = applicationContext.getBean("husband", Husband.class);
+        Wife wife = applicationContext.getBean("wife", Wife.class);
+        System.out.println(husband.queryWife());
+        System.out.println(wife.queryHusband());
     }
 }

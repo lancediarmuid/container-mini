@@ -34,7 +34,7 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
             }
 
             // 实例化后判断
-            boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInitialization(beanName, bean);
+            boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);
             if (!continueWithPropertyPopulation) {
                 return bean;
             }
@@ -62,14 +62,31 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
         return exposedObject;
     }
 
-    private boolean applyBeanPostProcessorsAfterInitialization(String beanName, Object bean) {
-        // TODO
-        return false;
+    private boolean applyBeanPostProcessorsAfterInstantiation(String beanName, Object bean) {
+        boolean continueWithPropertyPopulation = true;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                InstantiationAwareBeanPostProcessor instantiationAwareBeanPostProcessor = (InstantiationAwareBeanPostProcessor) beanPostProcessor;
+                if (!instantiationAwareBeanPostProcessor.postProcessAfterInstantiation(bean, beanName)) {
+                    continueWithPropertyPopulation = false;
+                    break;
+                }
+            }
+        }
+
+        return continueWithPropertyPopulation;
     }
 
-    protected Object getEarlyBeanReference(String beanName, BeanDefinition beanDefinition, Object finalBean) {
-        // todo
-        return null;
+    protected Object getEarlyBeanReference(String beanName, BeanDefinition beanDefinition, Object bean) {
+        Object exposedObject = bean;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                exposedObject = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).getEarlyBeanReference(exposedObject, beanName);
+                if (null == exposedObject)
+                    return exposedObject;
+            }
+        }
+        return exposedObject;
     }
 
     @Override

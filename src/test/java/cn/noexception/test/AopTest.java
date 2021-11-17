@@ -121,7 +121,8 @@ public class AopTest {
     public void test_inject() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-inject.xml");
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
-        System.out.println("测试结果：" + userService.queryUserInfo());
+        System.out.println("测试结果1：" + userService.queryUserInfo());
+        System.out.println("测试结果2：" + userService.queryUserInfo());
     }
 
 

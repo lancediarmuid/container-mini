@@ -3,6 +3,7 @@ package cn.noexception.test.bean;
 import cn.noexception.container.factory.annotation.Inject;
 import cn.noexception.container.factory.annotation.InputValue;
 import cn.noexception.container.factory.stereotype.Cube;
+import cn.noexception.ratelimiter.annotation.DoRateLimiter;
 
 import java.util.Random;
 
@@ -21,6 +22,7 @@ public class UserService implements IUserService {
     @Inject
     private UserDao userDao;
 
+    @DoRateLimiter(rate = 1, returnJson = "{\"code\":\"1111\",\"info\":\"调用方法超过最大次数，限流返回！\"}")
     @Override
     public String queryUserInfo() {
         try {

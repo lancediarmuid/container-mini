@@ -19,7 +19,9 @@ import java.lang.reflect.Method;
  */
 public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
 
-    private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();  // 暂时默认选择 cglib 来实例化
+    // 实例化策略
+//    private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();  // 选择使用 cglib代理来实例化
+    private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();  // 选择使用 JDK代理 来实例化
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition, Object[] args) {
         Object bean = null;

@@ -35,7 +35,7 @@ public class Cglib2AopProxy implements AopProxy {
 
         private final AdvisedSupport advised;
 
-        private DynamicAdvisedInterceptor(AdvisedSupport advised) {
+        public DynamicAdvisedInterceptor(AdvisedSupport advised) {
             this.advised = advised;
         }
 

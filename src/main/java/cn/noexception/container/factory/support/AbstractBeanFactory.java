@@ -6,6 +6,7 @@ import cn.noexception.container.factory.FactoryBean;
 import cn.noexception.container.factory.config.BeanDefinition;
 import cn.noexception.container.factory.config.BeanPostProcessor;
 import cn.noexception.container.factory.config.ConfigurableBeanFactory;
+import cn.noexception.container.factory.convert.ConversionService;
 import cn.noexception.container.factory.utils.ClassUtils;
 import cn.noexception.container.factory.utils.StringValueResolver;
 
@@ -27,6 +28,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
      * String resolvers to apply e.g. to annotation attribute values
      */
     private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
+
+    private ConversionService conversionService;
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -96,5 +99,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
             result = resolver.resolveStringValue(result);
         }
         return result;
+    }
+
+    public ConversionService getConversionService() {
+        return conversionService;
+    }
+
+    public void setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
     }
 }
